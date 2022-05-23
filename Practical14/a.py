@@ -1,34 +1,24 @@
-from xml.dom.minidom import parse
-import xml.dom.minidom
-import xml.sax
-import matplotlib.pyplot as plt
-import numpy as np
-DOMTree=xml.dom.minidom.parse("go_obo.xml")
-collection=DOMTree.documentElement
-genes=collection.getElementsByTagName("term")
-t=0
-dict={}
-new={}
-num=[]
-count=[]
-for term in genes:
-    t=t+1#When iterating to a term, t plus 1
-    ids=term.getElementsByTagName('id')[0]
-    id=ids.childNodes[0].data
-    dict[id]=[]#create a dict to save each Go's childnodes.
+from xml.dom.minidom import parse import xml.dom.minidom import xml.sax 
+import matplotlib.pyplot as plt import numpy as np 
+DOMTree=xml.dom.minidom.parse("go_obo.xml") 
+collection=DOMTree.documentElement 
+genes=collection.getElementsByTagName("term") t=0 dict={} new={} num=[] 
+count=[] for term in genes:
+    t=t+1#When iterating to a term, t plus 1 
+    ids=term.getElementsByTagName('id')[0] id=ids.childNodes[0].data 
+    dict[id]=[]#create a dict to save each Go's childnodes. 
     new[id]=0#create a dict to save each Go's number of childnodes.
 
-print(t)#print the number of term
-for term in genes:
-    number = len(term.getElementsByTagName("is_a"))
-    ids=term.getElementsByTagName('id')[0]
-    id=ids.childNodes[0].data#take out the Go's id
-    for i in range(0,number):# a for loop to itrates each <is-a>
+print(t)#print the number of term for term in genes: number = 
+    len(term.getElementsByTagName("is_a")) 
+    ids=term.getElementsByTagName('id')[0] 
+    id=ids.childNodes[0].data#take out the Go's id for i in 
+    range(0,number):# a for loop to itrates each <is-a>
         child = term.getElementsByTagName("is_a")[i]
         parent=child.childNodes[0].data
         dict[parent].append(id)#Add the names of the childnode of each Go to the list in dict.
 def r(a):#Define a function that can evaluate the number of childnode.
-    length=len(dict[a])
+    length=dict[a]
     for subgo in dict[a]:
         length=length+r(subgo)
     return length
@@ -37,9 +27,13 @@ def r(a):#Define a function that can evaluate the number of childnode.
 for term in genes:
     ids = term.getElementsByTagName('id')[0]
     id = ids.childNodes[0].data
-    m=r(id)
-    new[id]=m#Store the number of childnodes derived from the function
-    num.append(m)
+    p=r(id)
+    m=[]
+    for i in p:
+        if i not in m:
+            m.append(i)
+    new[id]=len(m)#Store the number of childnodes derived from the function
+    num.append(len(m))
 
 
 x=np.array(num)#draw the boxplot which about the number of childNodes associated with each term
