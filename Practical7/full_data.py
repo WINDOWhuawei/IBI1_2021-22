@@ -21,8 +21,5 @@ print (covid_data.iloc[10:21,0:3:2])
 #print (covid_data.loc[2:4,"date"])
 #my_columns = [False,True,False,False,True,False]
 print (covid_data.loc[0:81,"total_cases"])
-#for i in range (0,7995):
-    #if covid_data.loc[i,"location"]=="Afghanistan":
-       #print (covid_data.loc[i,"total_cases"])
 location=covid_data.iloc[0:,1]
 print (covid_data.loc[location=="Afghanistan","total_cases"])
