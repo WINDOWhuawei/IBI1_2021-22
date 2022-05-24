@@ -1,5 +1,8 @@
-from xml.dom.minidom import parse import xml.dom.minidom import xml.sax 
-import matplotlib.pyplot as plt import numpy as np 
+from xml.dom.minidom 
+import parse import xml.dom.minidom 
+import xml.sax 
+import matplotlib.pyplot as plt 
+import numpy as np 
 DOMTree=xml.dom.minidom.parse("go_obo.xml") 
 collection=DOMTree.documentElement 
 genes=collection.getElementsByTagName("term") t=0 dict={} new={} num=[] 
@@ -29,7 +32,7 @@ for term in genes:
     id = ids.childNodes[0].data
     p=r(id)
     m=[]
-    for i in p:
+    for i in p:#Remove duplicate childnodes.
         if i not in m:
             m.append(i)
     new[id]=len(m)#Store the number of childnodes derived from the function
